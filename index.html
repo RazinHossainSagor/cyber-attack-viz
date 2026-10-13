@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity Attack Visualization</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }}
+  </script>
+</head>
+<body>
+  <aside id="sidebar">
+    <h2>Network Monitor</h2>
+    <div class="stat"><span class="dot green"></span> Normal <b id="cnt-normal">0</b></div>
+    <div class="stat"><span class="dot orange"></span> Suspicious <b id="cnt-susp">0</b></div>
+    <div class="stat"><span class="dot red"></span> Malicious <b id="cnt-mal">0</b></div>
+
+    <div id="alert" class="hidden">
+      <strong>ALERT</strong>
+      <p id="alert-text"></p>
+    </div>
+
+    <div id="info" class="hidden">
+      <strong>Selected Node</strong>
+      <p id="info-text"></p>
+    </div>
+
+    <h3>Logs</h3>
+    <ul id="log-list"></ul>
+
+    <button id="toggle-btn">Pause</button>
+  </aside>
+
+  <div id="canvas-container"></div>
+  <div id="tooltip" class="hidden"></div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
