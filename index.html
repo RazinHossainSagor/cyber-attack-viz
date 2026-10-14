@@ -5,16 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cybersecurity Attack Visualization</title>
   <link rel="stylesheet" href="style.css">
-  <script type="importmap">
-  { "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-  }}
-  </script>
 </head>
 <body>
+
+  <!-- LEFT: summary + live threat statistics -->
   <aside id="sidebar">
     <h2>Network Monitor</h2>
+
     <div class="stat"><span class="dot green"></span> Normal <b id="cnt-normal">0</b></div>
     <div class="stat"><span class="dot orange"></span> Suspicious <b id="cnt-susp">0</b></div>
     <div class="stat"><span class="dot red"></span> Malicious <b id="cnt-mal">0</b></div>
@@ -24,18 +21,58 @@
       <p id="alert-text"></p>
     </div>
 
-    <div id="info" class="hidden">
-      <strong>Selected Node</strong>
-      <p id="info-text"></p>
+    <div class="card">
+      <h3>Live Threat Statistics</h3>
+      <div class="kpis">
+        <div class="kpi"><small>Total Packets</small><b id="stat-total">0</b></div>
+        <div class="kpi"><small>Packets / sec</small><b id="stat-pps">0</b></div>
+        <div class="kpi"><small>Threat Rate</small><b id="stat-rate">0%</b></div>
+        <div class="kpi"><small>Threat Level</small><b id="stat-level" class="lvl low">LOW</b></div>
+      </div>
+      <div class="meter"><div id="meter-fill" class="low"></div></div>
+      <canvas id="spark" width="240" height="56"></canvas>
+      <small class="hint">Last 30 sec (red = threat packets)</small>
     </div>
-
-    <h3>Logs</h3>
-    <ul id="log-list"></ul>
-
-    <button id="toggle-btn">Pause</button>
   </aside>
 
-  <div id="canvas-container"></div>
+  <!-- CENTER: 3D scene -->
+  <main id="stage">
+    <div id="canvas-container"></div>
+
+    <div id="legend">
+      <div><span class="line green"></span> Normal Traffic</div>
+      <div><span class="line orange"></span> Suspicious Traffic</div>
+      <div><span class="line red"></span> Malicious Traffic</div>
+    </div>
+
+    <button id="toggle-btn">Pause</button>
+  </main>
+
+  <!-- RIGHT: threat detection panel -->
+  <aside id="panel">
+    <h2>Threat Detection Panel</h2>
+
+    <div class="filters">
+      <button class="chip active" data-filter="all">All</button>
+      <button class="chip" data-filter="normal">Normal</button>
+      <button class="chip" data-filter="suspicious">Suspicious</button>
+      <button class="chip" data-filter="malicious">Malicious</button>
+    </div>
+
+    <input id="search" type="text" placeholder="Search IP, node, severity...">
+
+    <div class="tabs">
+      <button class="tab active" data-tab="logs">Live Logs</button>
+      <button class="tab" data-tab="alerts" id="tab-alerts">Alert History (0)</button>
+    </div>
+
+    <ul id="log-list" class="list"></ul>
+    <ul id="alert-history" class="list hidden"></ul>
+
+    <h3>Node Details</h3>
+    <div id="node-details" class="details"></div>
+  </aside>
+
   <div id="tooltip" class="hidden"></div>
 
   <script type="module" src="main.js"></script>
